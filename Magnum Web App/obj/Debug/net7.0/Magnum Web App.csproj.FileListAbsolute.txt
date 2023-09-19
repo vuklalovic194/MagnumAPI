@@ -1,0 +1,37 @@
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.csproj.AssemblyReference.cache
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.AssemblyInfoInputs.cache
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.AssemblyInfo.cs
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.csproj.CoreCompileInputs.cache
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.RazorAssemblyInfo.cache
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.RazorAssemblyInfo.cs
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\appsettings.Development.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\appsettings.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Magnum Web App.staticwebassets.runtime.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Magnum Web App.exe
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Magnum Web App.deps.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Magnum Web App.runtimeconfig.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Magnum Web App.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Magnum Web App.pdb
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\MagnumApp_Utility.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\bin\Debug\net7.0\MagnumApp_Utility.pdb
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets\msbuild.Magnum Web App.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets\msbuild.build.Magnum Web App.props
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.Magnum Web App.props
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.Magnum Web App.props
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets.pack.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets.build.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\staticwebassets.development.json
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\scopedcss\bundle\Magnum Web App.styles.css
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\scopedcss\projectbundle\Magnum Web App.bundle.scp.css
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.csproj.CopyComplete
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\refint\Magnum Web App.dll
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.pdb
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\Magnum Web App.genruntimeconfig.cache
+C:\Users\vukla\source\repos\Magnum web application\Magnum Web App\obj\Debug\net7.0\ref\Magnum Web App.dll

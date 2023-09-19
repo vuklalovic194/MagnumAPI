@@ -1,0 +1,45 @@
+﻿@using Magnum_Web_App.Models.DTO;
+@model MemberDTO
+
+<form asp-action="CreateMember">
+	<input hidden asp-for="Id" />
+	<br />
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				<label asp-for="Name">Name</label>
+			</div>
+			<div class="10">
+				<input asp-for="Name" class="form-control"/>
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+
+			<div class="col-2">
+				<label asp-for="Address">Address</label>
+			</div>
+			<div class="10">
+				<input asp-for="Address" class="form-control" />
+				<span asp-validation-for="Address" class="text-danger"></span>
+			</div>
+
+			<div class="col-2">
+				<label asp-for="PhoneNumber">Phone Number</label>
+			</div>
+			<div class="10">
+				<input asp-for="PhoneNumber" class="form-control" />
+				<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+			</div>
+
+			<div class="col-2">
+				<label asp-for="Age">Age</label>
+			</div>
+			<div class="10">
+				<input asp-for="Age" class="form-control" />
+				<span asp-validation-for="Age" class="text-danger"></span>
+			</div>
+		</div>
+		<div>
+			<button type="submit"> Submit </button>
+		</div>
+	</div>
+</form>

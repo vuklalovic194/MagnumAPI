@@ -1,0 +1,11 @@
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\bin\Debug\net7.0\MagnumApp_Utility.deps.json
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\bin\Debug\net7.0\MagnumApp_Utility.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\bin\Debug\net7.0\MagnumApp_Utility.pdb
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\MagnumApp_Utility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\MagnumApp_Utility.AssemblyInfoInputs.cache
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\MagnumApp_Utility.AssemblyInfo.cs
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\MagnumApp_Utility.csproj.CoreCompileInputs.cache
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\MagnumApp_Utility.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\refint\MagnumApp_Utility.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\MagnumApp_Utility.pdb
+C:\Users\vukla\source\repos\Magnum web application\MagnumApp_Utility\obj\Debug\net7.0\ref\MagnumApp_Utility.dll

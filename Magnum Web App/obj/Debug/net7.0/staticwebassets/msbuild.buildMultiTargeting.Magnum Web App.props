@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Magnum Web App.props" />
+</Project>

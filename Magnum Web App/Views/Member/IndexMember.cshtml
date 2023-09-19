@@ -1,0 +1,56 @@
+﻿@using Magnum_Web_App.Models.ViewModel;
+@model MemberViewModel
+
+<div class="container">
+	<form asp-action="AddSession">
+	<table class="table">
+		<tr class="col-12">
+			<th class="col-1">Image</th>
+			<th class="col-2">Name</th>
+			<th class="col-1">Rank</th>
+			<th class="col-1">Debt</th>
+			<th class="col-2">Payment</th>
+			<th class="col-2">Sessions</th>
+			
+		</tr>
+		<tr>
+			@foreach (var item in Model.Members)
+			{
+				<td>
+					@item.ImageUrl
+				</td>
+				<td>
+					@item.Name
+				</td>
+				<td>
+					@item.Rank
+				</td>
+
+			}
+			@foreach (var fee in Model.Fees)
+			{
+				<td>
+					@fee.Debt
+				</td>
+				<td>
+					@fee.DatePaid
+				</td>
+			}
+			@foreach (var ses in Model.TrainingSessions)
+			{
+				<td>
+					<input asp-for="@ses.TotalSessions">
+				</td>
+			}
+		</tr>
+	</table>
+	<div>
+		<button type="submit"> Save changes</button>
+	</div>
+	</form>
+
+	<div class="btn btn-primary">
+		<a asp-action="CreateMember" asp-controller="Member">Create New Member</a>
+	</div>
+
+</div>
