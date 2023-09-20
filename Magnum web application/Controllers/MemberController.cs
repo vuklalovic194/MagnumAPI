@@ -93,32 +93,29 @@ namespace Magnum_web_application.Controllers
 		{
 			try
 			{
-				if(ModelState.IsValid)
-				{
-					if (await _repository.GetByIdAsync(u => u.Name == memberDTO.Name) != null)
-					{
-						apiResponse.IsSuccess = false;
-						apiResponse.StatusCode = HttpStatusCode.BadRequest;
-						apiResponse.ErrorMessage = "Member with same name and last name already exists";
-
-						return Ok(apiResponse);
-					}
-
-					Member model = _mapper.Map<Member>(memberDTO);
-					await _repository.CreateAsync(model);
-					await _repository.SaveAsync();
-
-					apiResponse.StatusCode = HttpStatusCode.Created;
-					apiResponse.Response = model;
-					return Ok(apiResponse);
-				}
-				else
+				if(!ModelState.IsValid)
 				{
 					apiResponse.IsSuccess = false;
 					apiResponse.StatusCode = HttpStatusCode.BadRequest;
 					apiResponse.ErrorMessage = "Model State is not valid";
 					return Ok(apiResponse);
 				}
+				if (await _repository.GetByIdAsync(u => u.Name == memberDTO.Name) != null)
+				{
+					apiResponse.IsSuccess = false;
+					apiResponse.StatusCode = HttpStatusCode.BadRequest;
+					apiResponse.ErrorMessage = "Member with same name and last name already exists";
+
+					return Ok(apiResponse);
+				}
+
+				Member model = _mapper.Map<Member>(memberDTO);
+				await _repository.CreateAsync(model);
+				await _repository.SaveAsync();
+
+				apiResponse.StatusCode = HttpStatusCode.Created;
+				apiResponse.Response = model;
+				return Ok(apiResponse);
 			}
 			catch (Exception e)
 			{
@@ -136,38 +133,31 @@ namespace Magnum_web_application.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
-				{
-					Member member = await _repository.GetByIdAsync(u => u.Id == id);
-					if (member == null)
-					{
-						apiResponse.IsSuccess = true;
-						apiResponse.StatusCode = HttpStatusCode.NotFound;
-						apiResponse.ErrorMessage = "Member not found";
-						return NotFound();
-					}
-
-					member.Address = updateDTO.Address;
-					member.Name = updateDTO.Name;
-					member.Rank = updateDTO.Rank;
-					member.ImageUrl = updateDTO.ImageUrl;
-					member.PhoneNumber = updateDTO.PhoneNumber;
-					member.Age = updateDTO.Age;
-
-					await _repository.Update(member);
-					await _repository.SaveAsync();
-
-					apiResponse.StatusCode = HttpStatusCode.NoContent;
-					apiResponse.Response = member;
-					return Ok(apiResponse);
-				}
-				else
+				if (!ModelState.IsValid)
 				{
 					apiResponse.IsSuccess = false;
 					apiResponse.StatusCode = HttpStatusCode.BadRequest;
 					apiResponse.ErrorMessage = "Model State is not valid";
 					return Ok(apiResponse);
 				}
+
+				Member member = await _repository.GetByIdAsync(u => u.Id == id);
+				if (member == null)
+				{
+					apiResponse.IsSuccess = true;
+					apiResponse.StatusCode = HttpStatusCode.NotFound;
+					apiResponse.ErrorMessage = "Member not found";
+					return NotFound();
+				}
+
+				updateDTO.mapMember(updateDTO, member);
+
+				await _repository.Update(member);
+				await _repository.SaveAsync();
+
+				apiResponse.StatusCode = HttpStatusCode.NoContent;
+				apiResponse.Response = member;
+				return Ok(apiResponse);
 			}
 			catch (Exception e)
 			{
@@ -213,12 +203,11 @@ namespace Magnum_web_application.Controllers
 		[HttpPut("{id}/ManageSessions", Name ="ManageSessions")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> ManageSessions(int id, [FromBody]IsActiveDTO isActiveDTO)
+		public async Task<IActionResult> ManageSessions(int id, [FromBody]IsTrainingDTO isTrainingDTO)
 		{
 			try
 			{
 				Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
-				AddSessionDTO memberDTO = new AddSessionDTO();
 
 				if (member == null)
 				{
@@ -229,14 +218,8 @@ namespace Magnum_web_application.Controllers
 				}
 				else
 				{
-					memberDTO.isActive = isActiveDTO.IsTraining;
-					memberDTO.MonthlySessions = member.MonthlySessions;
-					memberDTO.TotalSessions = member.TotalSessions;
-					memberDTO.AddSession();
-
-					member.SessionDate = memberDTO.SessionDate;
-					member.MonthlySessions = memberDTO.MonthlySessions;
-					member.TotalSessions = memberDTO.TotalSessions;
+					isTrainingDTO.isTraining(member, isTrainingDTO);
+					member.AddSession();
 
 					await _repository.Update(member);
 					await _repository.SaveAsync();
@@ -263,7 +246,6 @@ namespace Magnum_web_application.Controllers
 			try
 			{
 				Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
-				AddSessionDTO memberDTO = new AddSessionDTO();
 
 				if (member == null)
 				{
@@ -274,22 +256,11 @@ namespace Magnum_web_application.Controllers
 				}
 				else
 				{
-					memberDTO.IsPaid = isPaidDTO.isPaid;
-					memberDTO.MonthlySessions = member.MonthlySessions;
-					memberDTO.SessionDate = member.SessionDate;
-					memberDTO.DatePaid = member.DatePaid;
-					memberDTO.Debt = member.Debt;
-
-					if (memberDTO.CheckIsTraining())
+					isPaidDTO.mapPaid(member, isPaidDTO);
+					if (member.CheckIsTraining())
 					{
-						memberDTO.CheckIfPaid();
+						member.CheckIfPaid();
 					}
-
-					member.isTraining = memberDTO.isTraining;
-					member.MonthlySessions = memberDTO.MonthlySessions;
-					member.SessionDate = memberDTO.SessionDate;
-					member.DatePaid = memberDTO.DatePaid;
-					member.Debt = memberDTO.Debt;
 
 					await _repository.Update(member);
 					await _repository.SaveAsync();

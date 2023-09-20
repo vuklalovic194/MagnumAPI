@@ -8,6 +8,16 @@
 		public int PhoneNumber { get; set; }
 		public int Age { get; set; }
 		public string Rank { get; set; }
+
+		public void mapMember(MemberDTO updateDTO, Member member)
+		{
+			member.Address = updateDTO.Address;
+			member.Name = updateDTO.Name;
+			member.Rank = updateDTO.Rank;
+			member.ImageUrl = updateDTO.ImageUrl;
+			member.PhoneNumber = updateDTO.PhoneNumber;
+			member.Age = updateDTO.Age;
+		}
 	}
 }
 

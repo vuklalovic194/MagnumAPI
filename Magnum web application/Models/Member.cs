@@ -25,6 +25,11 @@ namespace Magnum_web_application.Models
 		public bool IsPaid { get; set; } = false;
 		public bool VIP { get; set; } = false;
 
+		public bool isTraining { get; set; }
+		public int MonthlySessions { get; set; }
+		public int TotalSessions { get; set; }
+		public DateTime SessionDate { get; set; }
+
 		public bool CheckIfPaid()
 		{
 			if (VIP == false)
@@ -53,13 +58,7 @@ namespace Magnum_web_application.Models
 			{
 				return true;
 			}
-			
 		}
-
-		public bool isTraining { get; set; }
-		public int MonthlySessions { get; set; } 
-		public int TotalSessions { get; set; }
-		public DateTime SessionDate { get; set; }
 		
 		public bool CheckIsTraining()
 		{
@@ -70,6 +69,16 @@ namespace Magnum_web_application.Models
 			}
 			MonthlySessions = 0;
 			return false;
+		}
+
+		public void AddSession()
+		{
+			if (isTraining)
+			{
+				SessionDate = DateTime.Now;
+				TotalSessions++;
+				MonthlySessions++;
+			}
 		}
 	}
 }

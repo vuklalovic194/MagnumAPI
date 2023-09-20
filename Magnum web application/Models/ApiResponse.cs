@@ -8,6 +8,5 @@ namespace Magnum_web_application.Models
 		public string ErrorMessage { get; set; }
 		public bool IsSuccess { get; set; } = true;
 		public object Response { get; set; }
-
 	}
 }
