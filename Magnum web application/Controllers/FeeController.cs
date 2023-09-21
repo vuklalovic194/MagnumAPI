@@ -107,7 +107,6 @@ namespace Magnum_web_application.Controllers
 				return NotFound();
 			}
 
-			feeFromDb.TrainingSession = fee.TrainingSession;
 			feeFromDb.IsPaid = fee.IsPaid;
 			feeFromDb.Debt = fee.Debt;
 			feeFromDb.DatePaid = DateTime.UtcNow;

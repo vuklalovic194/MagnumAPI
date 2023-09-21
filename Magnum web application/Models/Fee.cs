@@ -9,9 +9,9 @@ namespace Magnum_web_application.Models
 		public DateTime DatePaid { get; set; }
 		public bool IsPaid { get; set; }
 
-		public TrainingSession TrainingSession { get; set; }
-		[ForeignKey(nameof(TrainingSession))]
-		public int TrainingSessionId { get; set; }
+		public Member Member{ get; set; }
+		[ForeignKey(nameof(Member))]
+		public int MemberId { get; set; }
 
 		public void CheckIfPaid()
 		{

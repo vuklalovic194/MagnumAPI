@@ -111,7 +111,7 @@ namespace Magnum_web_application.Controllers
 
 			trainingSessionFromDb = trainingSession;
 
-			await _repository.Update(trainingSessionFromDb);
+			//await _repository.Update(trainingSessionFromDb);
 			await _repository.SaveAsync();
 
 			apiResponse.StatusCode = HttpStatusCode.NoContent;

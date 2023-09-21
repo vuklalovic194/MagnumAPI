@@ -14,9 +14,9 @@ namespace Magnum_web_application.Repository
 			_context = context;
 		}
 
-        public async Task<TrainingSession> Update(TrainingSession training)
+        public async Task<TrainingSession> AddSession(TrainingSession training)
 		{
-			training.SessionDate = DateTime.UtcNow;
+			training.AddSingleSession();
 			_context.Update(training);
 			_context.SaveChanges();
 			return training;

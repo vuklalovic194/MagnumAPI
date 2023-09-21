@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumApp_Utility\\MagnumApp_Utility.csproj",
+      "projectUniqueName": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\MagnumApp_Utility\\MagnumApp_Utility.csproj",
       "projectName": "MagnumApp_Utility",
-      "projectPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumApp_Utility\\MagnumApp_Utility.csproj",
+      "projectPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\MagnumApp_Utility\\MagnumApp_Utility.csproj",
       "packagesPath": "C:\\Users\\vukla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumApp_Utility\\obj\\",
+      "outputPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\MagnumApp_Utility\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vukla\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -6,9 +6,9 @@ namespace Magnum_web_application.Models.DTO
 	{
 		public bool IsTraining { get; set; } = false;
 
-		public void isTraining(Member member, IsTrainingDTO isTrainingDTO)
+		public void isTraining(TrainingSession trainingSession)
 		{
-			member.isTraining = isTrainingDTO.IsTraining;
+			trainingSession.isTraining = IsTraining;
 		}
 	}
 }

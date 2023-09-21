@@ -378,11 +378,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\Magnum Web App\\Magnum Web App.csproj",
+      "projectUniqueName": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\Magnum Web App\\Magnum Web App.csproj",
       "projectName": "Magnum Web App",
-      "projectPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\Magnum Web App\\Magnum Web App.csproj",
+      "projectPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\Magnum Web App\\Magnum Web App.csproj",
       "packagesPath": "C:\\Users\\vukla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\Magnum Web App\\obj\\",
+      "outputPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\Magnum Web App\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vukla\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -399,8 +399,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumApp_Utility\\MagnumApp_Utility.csproj": {
-              "projectPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumApp_Utility\\MagnumApp_Utility.csproj"
+            "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\MagnumApp_Utility\\MagnumApp_Utility.csproj": {
+              "projectPath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\MagnumApp_Utility\\MagnumApp_Utility.csproj"
             }
           }
         }

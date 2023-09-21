@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "crKZJiQDAMlvGxfLARCCfVX+MkD0u4qTM6WspnZVq4qnB9q4cqAQx/2tz86OGg6q/Q+AjIwqiHE2BpePJuBcRw==",
+  "dgSpecHash": "16GS4Y+9BnySsPmyL1Qj1udBfmhTu6fXhDHKTH+KCHks43FlNqAn/uI6NIaG2inTw8TNz/rcgOyv2OY9H0HUwQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\Magnum web application\\Magnum API web application.csproj",
+  "projectFilePath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\Magnum web application\\Magnum API web application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vukla\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\vukla\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -14,13 +14,18 @@ namespace Magnum_web_application.Controllers
 	{
 		private readonly IMemberRepository _repository;
 		private readonly IMapper _mapper;
+		private readonly ITrainingSessionRepository _trainingSessionRepository;
+		private readonly IFeeRepository _feeRepository;
 		protected ApiResponse apiResponse;
 
-		public MemberController(IMemberRepository repository, IMapper mapper)
+		public MemberController(IMemberRepository repository, IMapper mapper, 
+			ITrainingSessionRepository trainingSessionRepository, IFeeRepository feeRepository)
 		{
 			apiResponse = new();
 			_repository = repository;
 			_mapper = mapper;
+			_trainingSessionRepository = trainingSessionRepository;
+			_feeRepository = feeRepository;
 		}
 
 		[HttpGet(Name ="GetMembers")]
@@ -32,12 +37,14 @@ namespace Magnum_web_application.Controllers
 			try
 			{
 				List<Member> memberList = await _repository.GetAllAsync();
+				TrainingSession trainingSession = new TrainingSession();
+				Fee fee = new Fee();
 
 				foreach(var member in memberList)
 				{
-					if (member.CheckIsTraining())
+					if (trainingSession.CheckIsTraining())
 					{
-						member.CheckIfPaid();
+						fee.CheckIfPaid();
 						await _repository.Update(member);
 						await _repository.SaveAsync();
 					}
@@ -203,29 +210,31 @@ namespace Magnum_web_application.Controllers
 		[HttpPut("{id}/ManageSessions", Name ="ManageSessions")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> ManageSessions(int id, [FromBody]IsTrainingDTO isTrainingDTO)
+		public async Task<IActionResult> ManageSessions(int id, [FromBody] IsTrainingDTO isTrainingDTO)
 		{
 			try
 			{
-				Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
-
-				if (member == null)
+				TrainingSession trainingSession = await _trainingSessionRepository.GetByIdAsync(u=> u.MemberId == id);
+				if (trainingSession != null)
 				{
+					await _trainingSessionRepository.AddSession(trainingSession);
 					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NotFound;
-					apiResponse.ErrorMessage = "Member not found";
+					apiResponse.StatusCode = HttpStatusCode.NoContent;
+					apiResponse.Response = trainingSession;
 					return Ok(apiResponse);
 				}
 				else
 				{
-					isTrainingDTO.isTraining(member, isTrainingDTO);
-					member.AddSession();
+					TrainingSession trainingSes = new TrainingSession();
+					trainingSes.mapForNewSession(isTrainingDTO, id);
 
-					await _repository.Update(member);
-					await _repository.SaveAsync();
+					await _trainingSessionRepository.CreateAsync(trainingSes);
+					await _trainingSessionRepository.AddSession(trainingSes);
+					await _trainingSessionRepository.SaveAsync();
 
-					apiResponse.StatusCode = HttpStatusCode.NoContent;
-					apiResponse.Response = member;
+					apiResponse.IsSuccess = true;
+					apiResponse.StatusCode = HttpStatusCode.Created;
+					apiResponse.Response = trainingSession;
 					return Ok(apiResponse);
 				}
 			}
@@ -246,6 +255,8 @@ namespace Magnum_web_application.Controllers
 			try
 			{
 				Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
+				Fee fee = new Fee();
+				TrainingSession trainingSession = new TrainingSession();
 
 				if (member == null)
 				{
@@ -256,10 +267,10 @@ namespace Magnum_web_application.Controllers
 				}
 				else
 				{
-					isPaidDTO.mapPaid(member, isPaidDTO);
-					if (member.CheckIsTraining())
+					isPaidDTO.mapPaid(fee, isPaidDTO);
+					if (trainingSession.CheckIsTraining())
 					{
-						member.CheckIfPaid();
+						fee.CheckIfPaid();
 					}
 
 					await _repository.Update(member);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nYFPWfZ5fZilHPCxObShtXPfmj35hs7bIWm67/t/QQ9qmiuNlKpO8qEl7cP1b2nBuHG2RErFvUtzlL2P3B4OJA==",
+  "dgSpecHash": "ib4vECl1EHToPWgwOxbGLeRIAZDrlN2+2yxSMBjWx6a+NCp5HZz1j1o0xGaSYlMfgcUnbzs3ZAeBspfsfN+bUg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumApp_Utility\\MagnumApp_Utility.csproj",
+  "projectFilePath": "C:\\Users\\vukla\\source\\repos\\Magnum web application\\MagnumAPI\\MagnumAPI\\MagnumApp_Utility\\MagnumApp_Utility.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
