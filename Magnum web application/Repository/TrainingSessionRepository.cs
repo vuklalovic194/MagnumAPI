@@ -16,7 +16,7 @@ namespace Magnum_web_application.Repository
 
         public async Task<TrainingSession> AddSession(TrainingSession training)
 		{
-			training.AddSingleSession();
+			//training.AddSingleSession();
 			_context.Update(training);
 			_context.SaveChanges();
 			return training;

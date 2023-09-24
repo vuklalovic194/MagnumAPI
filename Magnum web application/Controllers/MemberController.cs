@@ -37,17 +37,13 @@ namespace Magnum_web_application.Controllers
 			try
 			{
 				List<Member> memberList = await _repository.GetAllAsync();
-				TrainingSession trainingSession = new TrainingSession();
-				Fee fee = new Fee();
 
-				foreach(var member in memberList)
+				if(memberList.Count <= 0) 
 				{
-					if (trainingSession.CheckIsTraining())
-					{
-						fee.CheckIfPaid();
-						await _repository.Update(member);
-						await _repository.SaveAsync();
-					}
+					apiResponse.IsSuccess = true;
+					apiResponse.ErrorMessage = "There are no members";
+					apiResponse.Response = memberList;
+					return Ok(apiResponse);
 				}
 
 				apiResponse.Response = memberList;
@@ -107,7 +103,7 @@ namespace Magnum_web_application.Controllers
 					apiResponse.ErrorMessage = "Model State is not valid";
 					return Ok(apiResponse);
 				}
-				if (await _repository.GetByIdAsync(u => u.Name == memberDTO.Name) != null)
+				else if (await _repository.GetByIdAsync(u => u.Name == memberDTO.Name) != null)
 				{
 					apiResponse.IsSuccess = false;
 					apiResponse.StatusCode = HttpStatusCode.BadRequest;
@@ -207,88 +203,88 @@ namespace Magnum_web_application.Controllers
 			}
 		}
 
-		[HttpPut("{id}/ManageSessions", Name ="ManageSessions")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> ManageSessions(int id, [FromBody] IsTrainingDTO isTrainingDTO)
-		{
-			try
-			{
-				TrainingSession trainingSession = await _trainingSessionRepository.GetByIdAsync(u=> u.MemberId == id);
-				if (trainingSession != null)
-				{
-					await _trainingSessionRepository.AddSession(trainingSession);
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NoContent;
-					apiResponse.Response = trainingSession;
-					return Ok(apiResponse);
-				}
-				else
-				{
-					TrainingSession trainingSes = new TrainingSession();
-					trainingSes.mapForNewSession(isTrainingDTO, id);
+		//[HttpPut("{id}/ManageSessions", Name ="ManageSessions")]
+		//[ProducesResponseType(StatusCodes.Status200OK)]
+		//[ProducesResponseType(StatusCodes.Status404NotFound)]
+		//public async Task<IActionResult> ManageSessions(int id, [FromBody] IsTrainingDTO isTrainingDTO)
+		//{
+		//	try
+		//	{
+		//		TrainingSession trainingSession = await _trainingSessionRepository.GetByIdAsync(u=> u.MemberId == id);
+		//		if (trainingSession != null)
+		//		{
+		//			await _trainingSessionRepository.AddSession(trainingSession);
+		//			apiResponse.IsSuccess = true;
+		//			apiResponse.StatusCode = HttpStatusCode.NoContent;
+		//			apiResponse.Response = trainingSession;
+		//			return Ok(apiResponse);
+		//		}
+		//		else
+		//		{
+		//			TrainingSession trainingSes = new TrainingSession();
+		//			//trainingSes.mapForNewSession(isTrainingDTO, id);
 
-					await _trainingSessionRepository.CreateAsync(trainingSes);
-					await _trainingSessionRepository.AddSession(trainingSes);
-					await _trainingSessionRepository.SaveAsync();
+		//			await _trainingSessionRepository.CreateAsync(trainingSes);
+		//			await _trainingSessionRepository.AddSession(trainingSes);
+		//			await _trainingSessionRepository.SaveAsync();
 
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.Created;
-					apiResponse.Response = trainingSession;
-					return Ok(apiResponse);
-				}
-			}
-			catch (Exception e)
-			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
-				return Ok(apiResponse);
-			}
-		}
+		//			apiResponse.IsSuccess = true;
+		//			apiResponse.StatusCode = HttpStatusCode.Created;
+		//			apiResponse.Response = trainingSession;
+		//			return Ok(apiResponse);
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		apiResponse.StatusCode = HttpStatusCode.Unauthorized;
+		//		apiResponse.ErrorMessage = new string(e.Message.ToString());
+		//		apiResponse.IsSuccess = false;
+		//		return Ok(apiResponse);
+		//	}
+		//}
 
-		[HttpPut("{id}/ManageFees", Name ="ManageFees")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> ManageFees(int id, [FromBody]IsPaidDTO isPaidDTO)
-		{
-			try
-			{
-				Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
-				Fee fee = new Fee();
-				TrainingSession trainingSession = new TrainingSession();
+		//[HttpPut("{id}/ManageFees", Name ="ManageFees")]
+		//[ProducesResponseType(StatusCodes.Status200OK)]
+		//[ProducesResponseType(StatusCodes.Status404NotFound)]
+		//public async Task<IActionResult> ManageFees(int id, [FromBody]IsPaidDTO isPaidDTO)
+		//{
+		//	try
+		//	{
+		//		Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
+		//		Fee fee = new Fee();
+		//		TrainingSession trainingSession = new TrainingSession();
 
-				if (member == null)
-				{
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NotFound;
-					apiResponse.ErrorMessage = "Member not found";
-					return NotFound();
-				}
-				else
-				{
-					isPaidDTO.mapPaid(fee, isPaidDTO);
-					if (trainingSession.CheckIsTraining())
-					{
-						fee.CheckIfPaid();
-					}
+		//		if (member == null)
+		//		{
+		//			apiResponse.IsSuccess = true;
+		//			apiResponse.StatusCode = HttpStatusCode.NotFound;
+		//			apiResponse.ErrorMessage = "Member not found";
+		//			return NotFound();
+		//		}
+		//		else
+		//		{
+		//			isPaidDTO.mapPaid(fee, isPaidDTO);
+		//			if (trainingSession.CheckIsTraining())
+		//			{
+		//				fee.CheckIfPaid();
+		//			}
 
-					await _repository.Update(member);
-					await _repository.SaveAsync();
+		//			await _repository.Update(member);
+		//			await _repository.SaveAsync();
 
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NoContent;
-					apiResponse.Response = member;
-					return Ok(apiResponse);
-				}
-			}
-			catch (Exception e)
-			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
-				return Ok(apiResponse);
-			}
-		}
+		//			apiResponse.IsSuccess = true;
+		//			apiResponse.StatusCode = HttpStatusCode.NoContent;
+		//			apiResponse.Response = member;
+		//			return Ok(apiResponse);
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		apiResponse.StatusCode = HttpStatusCode.Unauthorized;
+		//		apiResponse.ErrorMessage = new string(e.Message.ToString());
+		//		apiResponse.IsSuccess = false;
+		//		return Ok(apiResponse);
+		//	}
+		//}
 	}
 }

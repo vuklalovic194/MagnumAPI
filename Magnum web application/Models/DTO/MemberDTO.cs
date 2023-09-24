@@ -8,6 +8,7 @@
 		public int PhoneNumber { get; set; }
 		public int Age { get; set; }
 		public string Rank { get; set; }
+		public bool VIP { get; set; } = false;
 
 		public void mapMember(MemberDTO updateDTO, Member member)
 		{
@@ -17,6 +18,7 @@
 			member.ImageUrl = updateDTO.ImageUrl;
 			member.PhoneNumber = updateDTO.PhoneNumber;
 			member.Age = updateDTO.Age;
+			member.VIP = updateDTO.VIP;
 		}
 	}
 }

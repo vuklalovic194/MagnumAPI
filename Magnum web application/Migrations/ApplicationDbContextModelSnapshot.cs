@@ -33,12 +33,6 @@ namespace Magnum_web_application.Migrations
                     b.Property<DateTime>("DatePaid")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Debt")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
@@ -103,17 +97,8 @@ namespace Magnum_web_application.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MonthlySessions")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("SessionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("TotalSessions")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isTraining")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -147,9 +132,9 @@ namespace Magnum_web_application.Migrations
             modelBuilder.Entity("Magnum_web_application.Models.Fee", b =>
                 {
                     b.HasOne("Magnum_web_application.Models.Member", "Member")
-                        .WithMany()
+                        .WithMany("Fee")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Member");
@@ -158,12 +143,19 @@ namespace Magnum_web_application.Migrations
             modelBuilder.Entity("Magnum_web_application.Models.TrainingSession", b =>
                 {
                     b.HasOne("Magnum_web_application.Models.Member", "Member")
-                        .WithMany()
+                        .WithMany("TrainingSession")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("Magnum_web_application.Models.Member", b =>
+                {
+                    b.Navigation("Fee");
+
+                    b.Navigation("TrainingSession");
                 });
 #pragma warning restore 612, 618
         }

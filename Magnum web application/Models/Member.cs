@@ -15,61 +15,16 @@ namespace Magnum_web_application.Models
 		public int PhoneNumber { get; set; }
 		[Required]
 		public int Age { get; set; }
+		public bool VIP { get; set; } = false;
 		public string Rank { get; set; }
 
 		public DateTime DateUpdated { get; set; }
 		public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-		//public int Debt { get; set; }
-		//public DateTime DatePaid { get; set; }
-		//public bool IsPaid { get; set; } = false;
-		public bool VIP { get; set; } = false;
+		//navigation properties
 
-		//public bool isTraining { get; set; }
-		//public int MonthlySessions { get; set; }
-		//public int TotalSessions { get; set; }
-		//public DateTime SessionDate { get; set; }
+		public ICollection<Fee> Fee { get; set; }
+		public ICollection<TrainingSession> TrainingSession { get; set; }
 
-		//public bool CheckIfPaid()
-		//{
-		//	if (VIP == false)
-		//	{
-		//		if (IsPaid)
-		//		{
-		//			IsPaid = true;
-		//			DatePaid = DateTime.Now;
-		//			if (Debt > 0)
-		//				Debt -= 4000;
-		//			else
-		//				Debt = 0;
-		//			return true;
-		//		}
-		//		else
-		//		{
-		//			if (DatePaid.AddDays(30) == DatePaid)
-		//			{
-		//				IsPaid = false;
-		//				Debt += 4000;
-		//			}
-		//			return false;
-		//		}
-		//	}
-		//	else
-		//	{
-		//		return true;
-		//	}
-		//}
-
-		
-
-		//public void AddSession()
-		//{
-		//	if (isTraining)
-		//	{
-		//		SessionDate = DateTime.Now;
-		//		TotalSessions++;
-		//		MonthlySessions++;
-		//	}
-		//}
 	}
 }

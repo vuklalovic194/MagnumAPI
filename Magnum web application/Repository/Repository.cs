@@ -21,6 +21,7 @@ namespace Magnum_web_application.Repository
 		public async Task CreateAsync(T entity)
 		{
 			await _dbSet.AddAsync(entity);
+
 			await SaveAsync();
 		}
 
@@ -39,6 +40,11 @@ namespace Magnum_web_application.Repository
 				{
 					query = query.Include(property);
 				}
+			}
+
+			if(filter != null)
+			{
+				query = query.Where(filter);
 			}
 
 			return await query.ToListAsync();

@@ -15,77 +15,63 @@ namespace Magnum_web_application.Controllers
 	public class TrainingController : ControllerBase
 	{
 		private readonly ITrainingSessionRepository _repository;
-		private readonly IMapper _mapper;
+		private readonly IMemberRepository _memberRepository;
 		protected ApiResponse apiResponse;
 
 
-		public TrainingController(ITrainingSessionRepository repository, IMapper mapper)
+		public TrainingController(ITrainingSessionRepository repository, IMemberRepository memberRepository)
 		{
 			apiResponse = new();
 			_repository = repository;
-			_mapper = mapper;
-			
-		}
-
-		[HttpGet]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		//[Authorize]
-		public async Task <ActionResult<ApiResponse>> GetMembers()
-		{
-			try
-			{
-				List<TrainingSession> trainingSession = await _repository.GetAllAsync();
-				apiResponse.Response = trainingSession;
-				apiResponse.StatusCode = HttpStatusCode.OK;
-				
-				return Ok(apiResponse);
-			}
-			catch (Exception e)
-			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
-				
-			}
-			return Ok(apiResponse);
+			_memberRepository = memberRepository;
 		}
 
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task <ActionResult<ApiResponse>> GetMember(int id)
+		public async Task <ActionResult<ApiResponse>> GetSessionsByMemberId(int id, int month = 0)
 		{
-			TrainingSession trainingSession = await _repository.GetByIdAsync(u => u.Id == id);
-			if (trainingSession == null)
+			List <TrainingSession> trainingSession = await _repository.GetAllAsync(u => u.MemberId == id);
+			if (trainingSession.Count != 0)
 			{
-				apiResponse.IsSuccess = true;
-				apiResponse.StatusCode=HttpStatusCode.NotFound;
-				apiResponse.ErrorMessage = "Member not found";
+				if (month != 0)
+				{
+					trainingSession = await _repository.GetAllAsync(u => u.SessionDate.Month == month && u.MemberId == id);
+					apiResponse.StatusCode = HttpStatusCode.OK;
+					apiResponse.Response = trainingSession.Count;
+					return Ok(apiResponse);
+				}
 
+				apiResponse.StatusCode = HttpStatusCode.OK;
+				apiResponse.Response = trainingSession.Count;
 				return Ok(apiResponse);
 			}
-
-			apiResponse.StatusCode = HttpStatusCode.OK;
-			apiResponse.Response = trainingSession;
+			
+			apiResponse.IsSuccess = true;
+			apiResponse.StatusCode = HttpStatusCode.NotFound;
+			apiResponse.ErrorMessage = "Sessions not found";
 			return Ok(apiResponse);
 		}
 
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status201Created)]
-		public async Task<IActionResult> Create([FromBody] TrainingSession trainingSession)
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> Create(int memberId)
 		{
-			if (await _repository.GetByIdAsync(u => u.Id == trainingSession.Id) != null)
-            {
+			if(await _memberRepository.GetByIdAsync(u => u.Id == memberId) == null)
+			{
 				apiResponse.IsSuccess = false;
-				apiResponse.StatusCode=HttpStatusCode.BadRequest;
-				apiResponse.ErrorMessage = "Training Session with same id already exists";
-				
+				apiResponse.StatusCode = HttpStatusCode.BadRequest;
+				apiResponse.ErrorMessage = "There is no member with such Id";
 				return Ok(apiResponse);
-            }
+			}
 
-			//Member model = _mapper.Map<Member>(memberDTO);
+			TrainingSession trainingSession = new()
+			{
+				MemberId = memberId,
+				SessionDate = DateTime.UtcNow
+			};
 
             await _repository.CreateAsync(trainingSession);
 			await _repository.SaveAsync();
@@ -95,38 +81,13 @@ namespace Magnum_web_application.Controllers
 			return Ok(apiResponse);
 		}
 
-		[HttpPut("{id}")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<ActionResult> Update([FromBody] TrainingSession trainingSession, int id)
-		{
-			TrainingSession trainingSessionFromDb = await _repository.GetByIdAsync(u=>u.Id == id);
-			if(trainingSession == null)
-			{
-				apiResponse.IsSuccess = true;
-				apiResponse.StatusCode = HttpStatusCode.NotFound;
-				apiResponse.ErrorMessage = "Member not found";
-				return NotFound();
-			}
-
-			trainingSessionFromDb = trainingSession;
-
-			//await _repository.Update(trainingSessionFromDb);
-			await _repository.SaveAsync();
-
-			apiResponse.StatusCode = HttpStatusCode.NoContent;
-			apiResponse.Response = trainingSessionFromDb;
-			return Ok(apiResponse);
-			
-		}
-
 		[HttpDelete("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task <ActionResult> Delete(int id)
+		public async Task <ActionResult> Delete(DateTime date)
 		{
-			TrainingSession trainingSession = await _repository.GetByIdAsync(u=> u.Id == id);
+			TrainingSession trainingSession = await _repository.GetByIdAsync(u=> u.SessionDate == date);
 			if(trainingSession == null)
 			{
 				apiResponse.IsSuccess = true;
@@ -139,7 +100,6 @@ namespace Magnum_web_application.Controllers
 			await _repository.SaveAsync();
 
 			apiResponse.StatusCode = HttpStatusCode.NoContent;
-
 			return Ok(apiResponse);
 		}
 	}
