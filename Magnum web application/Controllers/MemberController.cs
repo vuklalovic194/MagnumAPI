@@ -3,6 +3,7 @@ using Azure;
 using Magnum_web_application.Models;
 using Magnum_web_application.Models.DTO;
 using Magnum_web_application.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -40,21 +41,16 @@ namespace Magnum_web_application.Controllers
 
 				if(memberList.Count <= 0) 
 				{
-					apiResponse.IsSuccess = true;
-					apiResponse.ErrorMessage = "There are no members";
-					apiResponse.Response = memberList;
+					apiResponse.NotFound(memberList);
 					return Ok(apiResponse);
 				}
-
-				apiResponse.Response = memberList;
-				apiResponse.StatusCode = HttpStatusCode.OK;
+				
+				apiResponse.Get(memberList);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
 			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
+				apiResponse.Unauthorize(e);
 				return Ok(apiResponse);
 			}
 		}
@@ -69,22 +65,16 @@ namespace Magnum_web_application.Controllers
 				Member member = await _repository.GetByIdAsync(u => u.Id == id);
 				if (member == null)
 				{
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NotFound;
-					apiResponse.ErrorMessage = "Member not found";
-
+					apiResponse.NotFound(member);
 					return Ok(apiResponse);
 				}
 
-				apiResponse.StatusCode = HttpStatusCode.OK;
-				apiResponse.Response = member;
+				apiResponse.Get(member);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
 			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
+				apiResponse.Unauthorize(e);
 				return Ok(apiResponse);
 			}
 		}
@@ -98,17 +88,13 @@ namespace Magnum_web_application.Controllers
 			{
 				if(!ModelState.IsValid)
 				{
-					apiResponse.IsSuccess = false;
-					apiResponse.StatusCode = HttpStatusCode.BadRequest;
-					apiResponse.ErrorMessage = "Model State is not valid";
+					apiResponse.BadRequest(memberDTO);
 					return Ok(apiResponse);
 				}
 				else if (await _repository.GetByIdAsync(u => u.Name == memberDTO.Name) != null)
 				{
-					apiResponse.IsSuccess = false;
-					apiResponse.StatusCode = HttpStatusCode.BadRequest;
-					apiResponse.ErrorMessage = "Member with same name and last name already exists";
-
+					apiResponse.BadRequest(memberDTO);
+					apiResponse.ErrorMessage = "Member with same name already exists";
 					return Ok(apiResponse);
 				}
 
@@ -116,15 +102,12 @@ namespace Magnum_web_application.Controllers
 				await _repository.CreateAsync(model);
 				await _repository.SaveAsync();
 
-				apiResponse.StatusCode = HttpStatusCode.Created;
-				apiResponse.Response = model;
+				apiResponse.Create(model);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
 			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
+				apiResponse.Unauthorize(e);
 				return Ok(apiResponse);
 			}
 		}
@@ -138,35 +121,27 @@ namespace Magnum_web_application.Controllers
 			{
 				if (!ModelState.IsValid)
 				{
-					apiResponse.IsSuccess = false;
-					apiResponse.StatusCode = HttpStatusCode.BadRequest;
-					apiResponse.ErrorMessage = "Model State is not valid";
+					apiResponse.BadRequest(updateDTO);
 					return Ok(apiResponse);
 				}
 
 				Member member = await _repository.GetByIdAsync(u => u.Id == id);
 				if (member == null)
 				{
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NotFound;
-					apiResponse.ErrorMessage = "Member not found";
+					apiResponse.NotFound(member);
 					return NotFound();
 				}
 
 				updateDTO.mapMember(updateDTO, member);
-
 				await _repository.Update(member);
 				await _repository.SaveAsync();
 
-				apiResponse.StatusCode = HttpStatusCode.NoContent;
-				apiResponse.Response = member;
+				apiResponse.Update(member);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
 			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
+				apiResponse.Unauthorize(e);
 				return Ok(apiResponse);
 			}
 		}
@@ -182,10 +157,8 @@ namespace Magnum_web_application.Controllers
 				Member member = await _repository.GetByIdAsync(u => u.Id == id);
 				if (member == null)
 				{
-					apiResponse.IsSuccess = true;
-					apiResponse.StatusCode = HttpStatusCode.NotFound;
-					apiResponse.ErrorMessage = "Member not found";
-					return NotFound();
+					apiResponse.NotFound(member);
+					return Ok(apiResponse);
 				}
 
 				await _repository.DeleteAsync(member);
@@ -196,95 +169,9 @@ namespace Magnum_web_application.Controllers
 			}
 			catch (Exception e)
 			{
-				apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-				apiResponse.ErrorMessage = new string(e.Message.ToString());
-				apiResponse.IsSuccess = false;
+				apiResponse.Unauthorize(e);
 				return Ok(apiResponse);
 			}
 		}
-
-		//[HttpPut("{id}/ManageSessions", Name ="ManageSessions")]
-		//[ProducesResponseType(StatusCodes.Status200OK)]
-		//[ProducesResponseType(StatusCodes.Status404NotFound)]
-		//public async Task<IActionResult> ManageSessions(int id, [FromBody] IsTrainingDTO isTrainingDTO)
-		//{
-		//	try
-		//	{
-		//		TrainingSession trainingSession = await _trainingSessionRepository.GetByIdAsync(u=> u.MemberId == id);
-		//		if (trainingSession != null)
-		//		{
-		//			await _trainingSessionRepository.AddSession(trainingSession);
-		//			apiResponse.IsSuccess = true;
-		//			apiResponse.StatusCode = HttpStatusCode.NoContent;
-		//			apiResponse.Response = trainingSession;
-		//			return Ok(apiResponse);
-		//		}
-		//		else
-		//		{
-		//			TrainingSession trainingSes = new TrainingSession();
-		//			//trainingSes.mapForNewSession(isTrainingDTO, id);
-
-		//			await _trainingSessionRepository.CreateAsync(trainingSes);
-		//			await _trainingSessionRepository.AddSession(trainingSes);
-		//			await _trainingSessionRepository.SaveAsync();
-
-		//			apiResponse.IsSuccess = true;
-		//			apiResponse.StatusCode = HttpStatusCode.Created;
-		//			apiResponse.Response = trainingSession;
-		//			return Ok(apiResponse);
-		//		}
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-		//		apiResponse.ErrorMessage = new string(e.Message.ToString());
-		//		apiResponse.IsSuccess = false;
-		//		return Ok(apiResponse);
-		//	}
-		//}
-
-		//[HttpPut("{id}/ManageFees", Name ="ManageFees")]
-		//[ProducesResponseType(StatusCodes.Status200OK)]
-		//[ProducesResponseType(StatusCodes.Status404NotFound)]
-		//public async Task<IActionResult> ManageFees(int id, [FromBody]IsPaidDTO isPaidDTO)
-		//{
-		//	try
-		//	{
-		//		Member member = await _repository.GetByIdAsync(u => u.Id == id, tracked: false);
-		//		Fee fee = new Fee();
-		//		TrainingSession trainingSession = new TrainingSession();
-
-		//		if (member == null)
-		//		{
-		//			apiResponse.IsSuccess = true;
-		//			apiResponse.StatusCode = HttpStatusCode.NotFound;
-		//			apiResponse.ErrorMessage = "Member not found";
-		//			return NotFound();
-		//		}
-		//		else
-		//		{
-		//			isPaidDTO.mapPaid(fee, isPaidDTO);
-		//			if (trainingSession.CheckIsTraining())
-		//			{
-		//				fee.CheckIfPaid();
-		//			}
-
-		//			await _repository.Update(member);
-		//			await _repository.SaveAsync();
-
-		//			apiResponse.IsSuccess = true;
-		//			apiResponse.StatusCode = HttpStatusCode.NoContent;
-		//			apiResponse.Response = member;
-		//			return Ok(apiResponse);
-		//		}
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-		//		apiResponse.ErrorMessage = new string(e.Message.ToString());
-		//		apiResponse.IsSuccess = false;
-		//		return Ok(apiResponse);
-		//	}
-		//}
 	}
 }

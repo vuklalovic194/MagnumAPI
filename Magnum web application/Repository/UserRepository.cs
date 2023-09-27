@@ -64,8 +64,6 @@ namespace Magnum_web_application.Repository
 			};
 
 			return loginResponseDTO;
-
-			
 		}
 	}
 }

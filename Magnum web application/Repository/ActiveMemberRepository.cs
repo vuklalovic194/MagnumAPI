@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Magnum_web_application.Repository
 {
-	public class TrainingSessionRepository : Repository<TrainingSession>, ITrainingSessionRepository
+	public class ActiveMemberRepository : Repository<ActiveMember>, IActiveMemberRepository
 	{
 		private readonly ApplicationDbContext _context;
 
-		public TrainingSessionRepository(ApplicationDbContext context) : base(context)
+		public ActiveMemberRepository(ApplicationDbContext context) : base(context)
         {
 			_context = context;
 		}
 
-        public async Task<TrainingSession> AddSession(TrainingSession training)
+		public async Task<ActiveMember> Update(ActiveMember activeMember)
 		{
-			_context.Update(training);
+			_context.Update(activeMember);
 			_context.SaveChanges();
-			return training;
+			return activeMember;
 		}
 	}
 }

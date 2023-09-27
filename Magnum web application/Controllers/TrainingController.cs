@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Magnum_web_application.Models;
-using Magnum_web_application.Models.DTO;
-using Magnum_web_application.Repository;
 using Magnum_web_application.Repository.IRepository;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -37,19 +33,16 @@ namespace Magnum_web_application.Controllers
 				if (month != 0)
 				{
 					trainingSession = await _repository.GetAllAsync(u => u.SessionDate.Month == month && u.MemberId == id);
-					apiResponse.StatusCode = HttpStatusCode.OK;
-					apiResponse.Response = trainingSession.Count;
+					
+					apiResponse.Get(trainingSession.Count);
 					return Ok(apiResponse);
 				}
 
-				apiResponse.StatusCode = HttpStatusCode.OK;
-				apiResponse.Response = trainingSession.Count;
+				apiResponse.Get(trainingSession.Count);
 				return Ok(apiResponse);
 			}
-			
-			apiResponse.IsSuccess = true;
-			apiResponse.StatusCode = HttpStatusCode.NotFound;
-			apiResponse.ErrorMessage = "Sessions not found";
+
+			apiResponse.NotFound(trainingSession);
 			return Ok(apiResponse);
 		}
 
@@ -61,9 +54,7 @@ namespace Magnum_web_application.Controllers
 		{
 			if(await _memberRepository.GetByIdAsync(u => u.Id == memberId) == null)
 			{
-				apiResponse.IsSuccess = false;
-				apiResponse.StatusCode = HttpStatusCode.BadRequest;
-				apiResponse.ErrorMessage = "There is no member with such Id";
+				apiResponse.BadRequest(memberId);
 				return Ok(apiResponse);
 			}
 
@@ -76,8 +67,7 @@ namespace Magnum_web_application.Controllers
             await _repository.CreateAsync(trainingSession);
 			await _repository.SaveAsync();
 
-			apiResponse.StatusCode=HttpStatusCode.Created;
-			apiResponse.Response = trainingSession;
+			apiResponse.Create(trainingSession);
 			return Ok(apiResponse);
 		}
 
@@ -90,9 +80,7 @@ namespace Magnum_web_application.Controllers
 			TrainingSession trainingSession = await _repository.GetByIdAsync(u=> u.SessionDate == date);
 			if(trainingSession == null)
 			{
-				apiResponse.IsSuccess = true;
-				apiResponse.StatusCode = HttpStatusCode.NotFound;
-				apiResponse.ErrorMessage = "trainingSession not found";
+				apiResponse.NotFound(trainingSession);
 				return NotFound();
 			}
 

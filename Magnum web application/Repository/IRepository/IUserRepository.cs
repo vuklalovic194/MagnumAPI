@@ -6,6 +6,5 @@ namespace Magnum_web_application.Repository.IRepository
 	{
 		bool IsUnique(string username);
 		Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
-
 	}
 }

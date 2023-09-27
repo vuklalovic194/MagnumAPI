@@ -13,6 +13,7 @@ namespace Magnum_web_application.Data
         public DbSet<Member> Members { get; set; }
         public DbSet<TrainingSession> TrainingSessions { get; set;}
         public DbSet<Fee> Fees { get; set; }
+		public DbSet<ActiveMember> ActiveMembers { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -32,6 +33,12 @@ namespace Magnum_web_application.Data
 				.HasOne(m => m.Member)
 				.WithMany(f => f.Fee)
 				.HasForeignKey(f => f.MemberId)
+				.OnDelete(DeleteBehavior.NoAction);
+
+			modelBuilder.Entity<ActiveMember>()
+				.HasOne(m => m.Member)
+				.WithMany(a => a.ActiveMember)
+				.HasForeignKey( m => m.MemberId)
 				.OnDelete(DeleteBehavior.NoAction);
 		}
 		

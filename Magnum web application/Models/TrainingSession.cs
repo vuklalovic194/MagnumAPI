@@ -13,6 +13,5 @@ namespace Magnum_web_application.Models
 		[JsonIgnore]
 		public Member Member { get; set; }
 		public int MemberId { get; set; }
-
 	}
 }

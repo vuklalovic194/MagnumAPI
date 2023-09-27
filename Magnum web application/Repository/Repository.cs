@@ -21,7 +21,6 @@ namespace Magnum_web_application.Repository
 		public async Task CreateAsync(T entity)
 		{
 			await _dbSet.AddAsync(entity);
-
 			await SaveAsync();
 		}
 
@@ -48,7 +47,6 @@ namespace Magnum_web_application.Repository
 			}
 
 			return await query.ToListAsync();
-				
 		}
 
 		public async Task <T> GetByIdAsync(Expression<Func<T, bool>> filter = null, string includeproperties = null, bool tracked = true)

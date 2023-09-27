@@ -9,6 +9,7 @@ namespace Magnum_web_application
         public MapConfig()
         {
             CreateMap<Member, MemberDTO>().ReverseMap();
+            CreateMap<Fee, FeeDTO>().ReverseMap();
 		}
     }
 }
