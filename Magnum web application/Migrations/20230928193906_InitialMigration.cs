@@ -48,14 +48,31 @@ namespace Magnum_web_application.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ActiveMembers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    MemberId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActiveMembers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActiveMembers_Members_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Fees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Debt = table.Column<int>(type: "int", nullable: false),
                     DatePaid = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -87,6 +104,30 @@ namespace Magnum_web_application.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UnpaidMonths",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Month = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MemberId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnpaidMonths", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UnpaidMonths_Members_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActiveMembers_MemberId",
+                table: "ActiveMembers",
+                column: "MemberId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Fees_MemberId",
                 table: "Fees",
@@ -96,16 +137,27 @@ namespace Magnum_web_application.Migrations
                 name: "IX_TrainingSessions_MemberId",
                 table: "TrainingSessions",
                 column: "MemberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnpaidMonths_MemberId",
+                table: "UnpaidMonths",
+                column: "MemberId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActiveMembers");
+
+            migrationBuilder.DropTable(
                 name: "Fees");
 
             migrationBuilder.DropTable(
                 name: "TrainingSessions");
+
+            migrationBuilder.DropTable(
+                name: "UnpaidMonths");
 
             migrationBuilder.DropTable(
                 name: "Users");

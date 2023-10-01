@@ -33,6 +33,9 @@ namespace Magnum_web_application.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Month")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MemberId");
@@ -125,6 +128,27 @@ namespace Magnum_web_application.Migrations
                     b.ToTable("TrainingSessions");
                 });
 
+            modelBuilder.Entity("Magnum_web_application.Models.UnpaidMonth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Month")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("UnpaidMonths");
+                });
+
             modelBuilder.Entity("Magnum_web_application.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -180,6 +204,17 @@ namespace Magnum_web_application.Migrations
                     b.Navigation("Member");
                 });
 
+            modelBuilder.Entity("Magnum_web_application.Models.UnpaidMonth", b =>
+                {
+                    b.HasOne("Magnum_web_application.Models.Member", "Member")
+                        .WithMany("UnpaidMonth")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
             modelBuilder.Entity("Magnum_web_application.Models.Member", b =>
                 {
                     b.Navigation("ActiveMember");
@@ -187,6 +222,8 @@ namespace Magnum_web_application.Migrations
                     b.Navigation("Fee");
 
                     b.Navigation("TrainingSession");
+
+                    b.Navigation("UnpaidMonth");
                 });
 #pragma warning restore 612, 618
         }

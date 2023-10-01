@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.ComponentModel;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<ITrainingSessionRepository, TrainingSessionRepository>();
 builder.Services.AddScoped<IFeeRepository, FeeRepository>();
 builder.Services.AddScoped<IActiveMemberRepository, ActiveMemberRepository>();
+builder.Services.AddScoped<IUnpaidMonthRepository, UnpaidMonthRepository>();
+
 
 builder.Services.AddAutoMapper(typeof(MapConfig));
 builder.Services.AddDbContext<ApplicationDbContext>(option => {

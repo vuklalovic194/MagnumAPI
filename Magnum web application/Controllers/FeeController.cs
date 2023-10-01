@@ -18,50 +18,37 @@ namespace Magnum_web_application.Controllers
 
 		private readonly IMemberRepository _memberRepository;
 		private readonly IMapper _mapper;
+		private readonly IActiveMemberRepository _activeMemberRepository;
 		protected ApiResponse apiResponse;
 
 
-		public FeeController(IFeeRepository repository, IMemberRepository memberRepository, IMapper mapper)
+		public FeeController(IFeeRepository repository, IMemberRepository memberRepository, IMapper mapper, IActiveMemberRepository activeMemberRepository)
 		{
 			apiResponse = new();
 			_repository = repository;
 			_memberRepository = memberRepository;
 			_mapper = mapper;
+			_activeMemberRepository = activeMemberRepository;
 		}
 
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		//[Authorize]
-		public async Task<ActionResult<ApiResponse>> GetFeesByMemberId(int id, int month = 0)
+		public async Task<ActionResult<ApiResponse>> GetFeesByMemberId(int id)
 		{
 			try
 			{
-				if (month != 0)
-				{
-					List<Fee> feeByMonth = await _repository.GetAllAsync(u => u.MemberId == id && u.DatePaid.Month == month);
-
-					if (feeByMonth.Count == 0)
-					{
-						apiResponse.NotFound(feeByMonth);
-						return Ok(apiResponse);
-					}
-
-					apiResponse.Get(feeByMonth);
-					return Ok(apiResponse);
-				}
-
 				List<Fee> feeList = await _repository.GetAllAsync(u => u.MemberId == id);
 
-				if (feeList.Count == 0)
+				if (feeList.Count != 0)
 				{
-					apiResponse.NotFound(feeList);
+					apiResponse.Get(feeList);
 					return Ok(apiResponse);
 				}
 
-				apiResponse.Get(feeList);
+				apiResponse.NotFound(feeList);
 				return Ok(apiResponse);
-
 			}
 			catch (Exception e)
 			{

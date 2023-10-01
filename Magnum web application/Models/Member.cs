@@ -26,5 +26,6 @@ namespace Magnum_web_application.Models
 		public ICollection<Fee> Fee { get; set; }
 		public ICollection<TrainingSession> TrainingSession { get; set; }
 		public ICollection<ActiveMember> ActiveMember{ get; set; }
+		public ICollection<UnpaidMonth> UnpaidMonth { get; set; }
 	}
 }

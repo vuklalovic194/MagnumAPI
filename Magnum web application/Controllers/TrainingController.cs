@@ -46,6 +46,22 @@ namespace Magnum_web_application.Controllers
 			return Ok(apiResponse);
 		}
 
+		[HttpGet("SessionsHistory/{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<IActionResult> GetSessionsHistory(int id)
+		{
+			List<TrainingSession> trainingSessions = await _repository.GetAllAsync(u => u.MemberId == id);
+			
+			if(trainingSessions.Count != 0)
+			{
+				apiResponse.Get(trainingSessions);
+				return Ok(apiResponse);
+			}
+			apiResponse.NotFound(trainingSessions);
+			return Ok(apiResponse);
+		}
+
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status201Created)]
