@@ -12,5 +12,15 @@ namespace Magnum_web_application.Models
 
 		public Member Member{ get; set; }
 		public int MemberId { get; set; }
+
+		public Fee CreateFee(int memberId)
+		{
+			Fee fee = new()
+			{
+				MemberId = memberId,
+				DatePaid = DateTime.Now,
+			};
+			return fee;
+		}
 	}
 }

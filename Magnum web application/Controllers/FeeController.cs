@@ -18,17 +18,17 @@ namespace Magnum_web_application.Controllers
 
 		private readonly IMemberRepository _memberRepository;
 		private readonly IMapper _mapper;
-		private readonly IActiveMemberRepository _activeMemberRepository;
+		private readonly IUnpaidMonthRepository unpaidMonthRepository;
 		protected ApiResponse apiResponse;
 
 
-		public FeeController(IFeeRepository repository, IMemberRepository memberRepository, IMapper mapper, IActiveMemberRepository activeMemberRepository)
+		public FeeController(IFeeRepository repository, IMemberRepository memberRepository, IMapper mapper, IUnpaidMonthRepository unpaidMonthRepository)
 		{
 			apiResponse = new();
 			_repository = repository;
 			_memberRepository = memberRepository;
 			_mapper = mapper;
-			_activeMemberRepository = activeMemberRepository;
+			this.unpaidMonthRepository = unpaidMonthRepository;
 		}
 
 		[HttpGet]
@@ -40,6 +40,12 @@ namespace Magnum_web_application.Controllers
 			try
 			{
 				List<Fee> feeList = await _repository.GetAllAsync(u => u.MemberId == id);
+				
+				if(id == 0)
+				{
+					apiResponse.Response = await _repository.GetAllAsync();
+					return Ok(apiResponse);
+				}
 
 				if (feeList.Count != 0)
 				{
@@ -62,22 +68,32 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		public async Task<IActionResult> CreateFee(int memberId)
 		{
-			Member member = await _memberRepository.GetByIdAsync(u => u.Id == memberId);
-			if (member == null)
+			try
 			{
-				apiResponse.NotFound(member);
+				List<UnpaidMonth> unpaidMonths = await unpaidMonthRepository.GetAllAsync(u => u.MemberId == memberId);
+				Fee fee = new Fee();
+				
+				if(unpaidMonths.Count > 0)
+				{
+					fee = fee.CreateFee(memberId);
+
+					await _repository.CreateAsync(fee);
+					await unpaidMonthRepository.DeleteAsync(unpaidMonths[0]);
+					await _repository.SaveAsync();
+
+					apiResponse.Create(fee);
+					return Ok(apiResponse);
+				}
+				
+				apiResponse.NotFound(fee);
+				apiResponse.ErrorMessage = "This member has no debt";
 				return Ok(apiResponse);
 			}
-
-			FeeDTO feeDTO = new();
-			feeDTO.CreateFeeDTO(memberId); 
-			Fee model = _mapper.Map<Fee>(feeDTO);
-
-			await _repository.CreateAsync(model);
-			await _repository.SaveAsync();
-
-			apiResponse.Create(feeDTO);
-			return Ok(apiResponse);
+			catch (Exception e)
+			{
+				apiResponse.Unauthorize(e) ;
+				return Ok(apiResponse);
+			}
 		}
 
 		[HttpDelete("{id}")]
