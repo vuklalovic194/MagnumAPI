@@ -1,12 +1,6 @@
 ﻿using Magnum_web_application.Models;
-using Magnum_web_application.Repository;
-using Magnum_web_application.Repository.IRepository;
 using Magnum_web_application.Service.UnpaidMonthService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Magnum_web_application.Controllers
 {
@@ -14,40 +8,41 @@ namespace Magnum_web_application.Controllers
 	[ApiController]
 	public class UnpaidMonthController : ControllerBase
 	{
-		private readonly IUnpaidMonthRepository _unpaidMonthRepository;
-		private readonly IActiveMemberRepository activeMemberRepository;
-		private readonly IFeeRepository _feeRepository;
-		private readonly CreateUnpaidMonthService unpaidMonthService;
+		private readonly CreateUnpaidMonthService createUnpaidMonthService;
 		private readonly GetUnpaidMonthByMemberIdService unpaidMonthServiceById;
+		private readonly GetAllUnpaidMonthsService unpaidMonthsService;
 		protected ApiResponse apiResponse;
 
-		public UnpaidMonthController(IUnpaidMonthRepository unpaidMonthRepository, IActiveMemberRepository activeMemberRepository, IFeeRepository feeRepository, CreateUnpaidMonthService unpaidMonthService, GetUnpaidMonthByMemberIdService unpaidMonthServiceById)
+		public UnpaidMonthController(
+			CreateUnpaidMonthService unpaidMonthService,
+			GetUnpaidMonthByMemberIdService unpaidMonthServiceById,
+			GetAllUnpaidMonthsService unpaidMonthsService)
 		{
 
 			apiResponse = new ApiResponse();
-			this.unpaidMonthService = unpaidMonthService;
+			this.createUnpaidMonthService = unpaidMonthService;
 			this.unpaidMonthServiceById = unpaidMonthServiceById;
+			this.unpaidMonthsService = unpaidMonthsService;
 		}
 
-		[HttpGet]
+		[HttpGet("GetAll")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> GetUnpaidMonths()
 		{
-			//transfer to service
-
-			List<UnpaidMonth> unpaidMonths = await _unpaidMonthRepository.GetAllAsync();
-			if (unpaidMonths.Count != 0)
+			try
 			{
-				apiResponse.Get(unpaidMonths);
+				apiResponse = await unpaidMonthsService.GetAllUnpaidMonthsAsync();
 				return Ok(apiResponse);
 			}
-
-			apiResponse.NotFound(unpaidMonths);
-			return Ok(apiResponse);
+			catch (Exception e)
+			{
+				apiResponse.Unauthorize(e);
+				return Ok(apiResponse);
+			}
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("Get/{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> GetUnpaidMonthsByMemberId(int id)
@@ -64,12 +59,15 @@ namespace Magnum_web_application.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpPost("Create")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status201Created)]
 		public async Task<IActionResult> CreateUnpaidMonth(int memberId)
 		{
 			try
 			{
-				apiResponse = await unpaidMonthService.CreateUnpaidMonth(memberId);
+				apiResponse = await createUnpaidMonthService.CreateUnpaidMonth(memberId);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)

@@ -1,7 +1,4 @@
-﻿using AutoMapper.Execution;
-using Magnum_web_application.Controllers;
-
-namespace Magnum_web_application.Models
+﻿namespace Magnum_web_application.Models
 {
 	public class UnpaidMonth
 	{

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Magnum_web_application.Models;
 using Magnum_web_application.Repository.IRepository;
+using Magnum_web_application.Service.TrainingService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,16 +11,18 @@ namespace Magnum_web_application.Controllers
 	[ApiController]
 	public class TrainingController : ControllerBase
 	{
-		private readonly ITrainingSessionRepository _repository;
-		private readonly IMemberRepository _memberRepository;
+		private readonly GetSessionsByMemberIdService getSessionsByMemberIdService;
+		private readonly GetSessionHistoryService getSessionHistoryService;
+		private readonly DeleteSessionService deleteSessionService;
 		protected ApiResponse apiResponse;
 
 
-		public TrainingController(ITrainingSessionRepository repository, IMemberRepository memberRepository)
+		public TrainingController(GetSessionsByMemberIdService getSessionsByMemberIdService, GetSessionHistoryService getSessionHistoryService, DeleteSessionService deleteSessionService)
 		{
 			apiResponse = new();
-			_repository = repository;
-			_memberRepository = memberRepository;
+			this.getSessionsByMemberIdService = getSessionsByMemberIdService;
+			this.getSessionHistoryService = getSessionHistoryService;
+			this.deleteSessionService = deleteSessionService;
 		}
 
 		[HttpGet("{id}")]
@@ -27,22 +30,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task <ActionResult<ApiResponse>> GetSessionsByMemberId(int id, int month = 0)
 		{
-			List <TrainingSession> trainingSession = await _repository.GetAllAsync(u => u.MemberId == id);
-			if (trainingSession.Count != 0)
-			{
-				if (month != 0)
-				{
-					trainingSession = await _repository.GetAllAsync(u => u.SessionDate.Month == month && u.MemberId == id);
-					
-					apiResponse.Get(trainingSession.Count);
-					return Ok(apiResponse);
-				}
-
-				apiResponse.Get(trainingSession.Count);
-				return Ok(apiResponse);
-			}
-
-			apiResponse.NotFound(trainingSession);
+			apiResponse = await getSessionsByMemberIdService.GetSessionsByMemberIdAsync(id, month);
 			return Ok(apiResponse);
 		}
 
@@ -51,14 +39,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> GetSessionsHistory(int id)
 		{
-			List<TrainingSession> trainingSessions = await _repository.GetAllAsync(u => u.MemberId == id);
-			
-			if(trainingSessions.Count != 0)
-			{
-				apiResponse.Get(trainingSessions);
-				return Ok(apiResponse);
-			}
-			apiResponse.NotFound(trainingSessions);
+			apiResponse = await getSessionHistoryService.GetSessionHistoryAsync(id);
 			return Ok(apiResponse);
 		}
 
@@ -68,22 +49,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> Create(int memberId)
 		{
-			if(await _memberRepository.GetByIdAsync(u => u.Id == memberId) == null)
-			{
-				apiResponse.BadRequest(memberId);
-				return Ok(apiResponse);
-			}
-
-			TrainingSession trainingSession = new()
-			{
-				MemberId = memberId,
-				SessionDate = DateTime.UtcNow
-			};
-
-            await _repository.CreateAsync(trainingSession);
-			await _repository.SaveAsync();
-
-			apiResponse.Create(trainingSession);
+			apiResponse = await getSessionHistoryService.GetSessionHistoryAsync(memberId);
 			return Ok(apiResponse);
 		}
 
@@ -93,17 +59,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task <ActionResult> Delete(DateTime date)
 		{
-			TrainingSession trainingSession = await _repository.GetByIdAsync(u=> u.SessionDate == date);
-			if(trainingSession == null)
-			{
-				apiResponse.NotFound(trainingSession);
-				return NotFound();
-			}
-
-			await _repository.DeleteAsync(trainingSession);
-			await _repository.SaveAsync();
-
-			apiResponse.StatusCode = HttpStatusCode.NoContent;
+			apiResponse = await deleteSessionService.DeleteSessionAsync(date);
 			return Ok(apiResponse);
 		}
 	}
