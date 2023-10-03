@@ -3,6 +3,8 @@ using Magnum_web_application.Data;
 using Magnum_web_application.Models;
 using Magnum_web_application.Repository;
 using Magnum_web_application.Repository.IRepository;
+using Magnum_web_application.Service;
+using Magnum_web_application.Service.IServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,13 +19,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IActiveMemberRepository, ActiveMemberRepository>();
+builder.Services.AddScoped<IFeeRepository, FeeRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<ITrainingSessionRepository, TrainingSessionRepository>();
-builder.Services.AddScoped<IFeeRepository, FeeRepository>();
-builder.Services.AddScoped<IActiveMemberRepository, ActiveMemberRepository>();
 builder.Services.AddScoped<IUnpaidMonthRepository, UnpaidMonthRepository>();
 
+builder.Services.AddScoped<IActiveMemberService, ActiveMemberService>();
+builder.Services.AddScoped<IFeeService, FeeService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<ITrainingService, TrainingService>();
+builder.Services.AddScoped<IUnpaidMonthService, UnpaidMonthService>();
 
 builder.Services.AddAutoMapper(typeof(MapConfig));
 builder.Services.AddDbContext<ApplicationDbContext>(option => {

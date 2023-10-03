@@ -160,3 +160,10 @@ C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum we
 C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\obj\Debug\net7.0\Magnum API web application.csproj.CopyComplete
 C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\obj\Debug\net7.0\Magnum API web application.genruntimeconfig.cache
 C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\obj\Debug\net7.0\ref\Magnum API web application.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\System.Web.Mvc.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\System.Web.Razor.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\System.Web.Helpers.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\System.Web.WebPages.Deployment.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\System.Web.WebPages.Razor.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\System.Web.WebPages.dll
+C:\Users\vukla\source\repos\Magnum web application\MagnumAPI\MagnumAPI\Magnum web application\bin\Debug\net7.0\Microsoft.Web.Infrastructure.dll

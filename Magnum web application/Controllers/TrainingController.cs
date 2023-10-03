@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using Magnum_web_application.Models;
-using Magnum_web_application.Repository.IRepository;
-using Magnum_web_application.Service.TrainingService;
+﻿using Magnum_web_application.Models;
+using Magnum_web_application.Service.IServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Magnum_web_application.Controllers
 {
@@ -11,18 +8,13 @@ namespace Magnum_web_application.Controllers
 	[ApiController]
 	public class TrainingController : ControllerBase
 	{
-		private readonly GetSessionsByMemberIdService getSessionsByMemberIdService;
-		private readonly GetSessionHistoryService getSessionHistoryService;
-		private readonly DeleteSessionService deleteSessionService;
+		private readonly ITrainingService trainingService;
 		protected ApiResponse apiResponse;
 
-
-		public TrainingController(GetSessionsByMemberIdService getSessionsByMemberIdService, GetSessionHistoryService getSessionHistoryService, DeleteSessionService deleteSessionService)
+		public TrainingController(ITrainingService trainingService)
 		{
 			apiResponse = new();
-			this.getSessionsByMemberIdService = getSessionsByMemberIdService;
-			this.getSessionHistoryService = getSessionHistoryService;
-			this.deleteSessionService = deleteSessionService;
+			this.trainingService = trainingService;
 		}
 
 		[HttpGet("{id}")]
@@ -30,7 +22,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task <ActionResult<ApiResponse>> GetSessionsByMemberId(int id, int month = 0)
 		{
-			apiResponse = await getSessionsByMemberIdService.GetSessionsByMemberIdAsync(id, month);
+			apiResponse = await trainingService.GetSessionsByMemberIdAsync(id, month);
 			return Ok(apiResponse);
 		}
 
@@ -39,7 +31,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> GetSessionsHistory(int id)
 		{
-			apiResponse = await getSessionHistoryService.GetSessionHistoryAsync(id);
+			apiResponse = await trainingService.GetSessionHistoryAsync(id);
 			return Ok(apiResponse);
 		}
 
@@ -49,7 +41,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> Create(int memberId)
 		{
-			apiResponse = await getSessionHistoryService.GetSessionHistoryAsync(memberId);
+			apiResponse = await trainingService.CreateSessionAsync(memberId);
 			return Ok(apiResponse);
 		}
 
@@ -59,7 +51,7 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task <ActionResult> Delete(DateTime date)
 		{
-			apiResponse = await deleteSessionService.DeleteSessionAsync(date);
+			apiResponse = await trainingService.DeleteSessionAsync(date);
 			return Ok(apiResponse);
 		}
 	}

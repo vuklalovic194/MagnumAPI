@@ -32,7 +32,7 @@ namespace Magnum_web_application.Repository
 
 		public async Task <List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeproperties = null)
 		{
-			IQueryable<T> query =  _dbSet;
+			IQueryable<T> query = _dbSet;
 			if(includeproperties != null)
 			{
 				foreach(var property in includeproperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))

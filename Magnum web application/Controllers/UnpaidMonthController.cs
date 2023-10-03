@@ -1,28 +1,21 @@
 ﻿using Magnum_web_application.Models;
-using Magnum_web_application.Service.UnpaidMonthService;
+using Magnum_web_application.Service;
+using Magnum_web_application.Service.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Magnum_web_application.Controllers
 {
-	[Route("api/UnpaidMonth")]
+    [Route("api/UnpaidMonth")]
 	[ApiController]
 	public class UnpaidMonthController : ControllerBase
 	{
-		private readonly CreateUnpaidMonthService createUnpaidMonthService;
-		private readonly GetUnpaidMonthByMemberIdService unpaidMonthServiceById;
-		private readonly GetAllUnpaidMonthsService unpaidMonthsService;
+		private readonly IUnpaidMonthService unpaidMonthService;
 		protected ApiResponse apiResponse;
 
-		public UnpaidMonthController(
-			CreateUnpaidMonthService unpaidMonthService,
-			GetUnpaidMonthByMemberIdService unpaidMonthServiceById,
-			GetAllUnpaidMonthsService unpaidMonthsService)
+		public UnpaidMonthController(IUnpaidMonthService unpaidMonthService)
 		{
-
 			apiResponse = new ApiResponse();
-			this.createUnpaidMonthService = unpaidMonthService;
-			this.unpaidMonthServiceById = unpaidMonthServiceById;
-			this.unpaidMonthsService = unpaidMonthsService;
+			this.unpaidMonthService = unpaidMonthService;
 		}
 
 		[HttpGet("GetAll")]
@@ -32,7 +25,7 @@ namespace Magnum_web_application.Controllers
 		{
 			try
 			{
-				apiResponse = await unpaidMonthsService.GetAllUnpaidMonthsAsync();
+				apiResponse = await unpaidMonthService.GetAllUnpaidMonthsAsync();
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
@@ -49,7 +42,7 @@ namespace Magnum_web_application.Controllers
 		{
 			try
 			{
-				apiResponse = await unpaidMonthServiceById.GetUnpaidMonthsById(id);
+				apiResponse = await unpaidMonthService.GetUnpaidMonthsById(id);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
@@ -67,7 +60,7 @@ namespace Magnum_web_application.Controllers
 		{
 			try
 			{
-				apiResponse = await createUnpaidMonthService.CreateUnpaidMonth(memberId);
+				apiResponse = await unpaidMonthService.CreateUnpaidMonth(memberId);
 				return Ok(apiResponse);
 			}
 			catch (Exception e)
