@@ -12,20 +12,20 @@ from basic CRUD operations to complex management of payments, attendance etc.
   
 **Clone the repository**  
 
-git clone https://github.com/vuklalovic194/MagnumAPI.git
+-git clone https://github.com/vuklalovic194/MagnumAPI.git
 
 **Navigate to the project directory**  
   
-cd your-repo
+-cd your-repo
 
 **Install dependencies (if applicable)**  
   
-npm install
+-npm install
 
 **Configure environment variables**  
   
-cp .env.example .env
+-cp .env.example .env
 
 **Run the application**  
   
-dotnet run
+-dotnet run
