@@ -40,7 +40,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("ActiveMembers", (string)null);
+                    b.ToTable("ActiveMembers");
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.Fee", b =>
@@ -61,7 +61,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("Fees", (string)null);
+                    b.ToTable("Fees");
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.Member", b =>
@@ -96,15 +96,36 @@ namespace Magnum_web_application.Migrations
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("Rank")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("VIP")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("Magnum_web_application.Models.Rank", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Promotion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SkillRank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Ranks");
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.TrainingSession", b =>
@@ -125,7 +146,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("TrainingSessions", (string)null);
+                    b.ToTable("TrainingSessions");
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.UnpaidMonth", b =>
@@ -146,7 +167,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("UnpaidMonths", (string)null);
+                    b.ToTable("UnpaidMonths");
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.User", b =>
@@ -168,7 +189,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.ActiveMember", b =>
@@ -186,6 +207,17 @@ namespace Magnum_web_application.Migrations
                 {
                     b.HasOne("Magnum_web_application.Models.Member", "Member")
                         .WithMany("Fee")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("Magnum_web_application.Models.Rank", b =>
+                {
+                    b.HasOne("Magnum_web_application.Models.Member", "Member")
+                        .WithMany("Rank")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -220,6 +252,8 @@ namespace Magnum_web_application.Migrations
                     b.Navigation("ActiveMember");
 
                     b.Navigation("Fee");
+
+                    b.Navigation("Rank");
 
                     b.Navigation("TrainingSession");
 

@@ -16,7 +16,6 @@ namespace Magnum_web_application.Models
 		[Required]
 		public int Age { get; set; }
 		public bool VIP { get; set; } = false;
-		public string Rank { get; set; }
 
 		public DateTime DateUpdated { get; set; }
 		public DateTime DateCreated { get; set; } = DateTime.UtcNow;
@@ -27,5 +26,6 @@ namespace Magnum_web_application.Models
 		public ICollection<TrainingSession> TrainingSession { get; set; }
 		public ICollection<ActiveMember> ActiveMember{ get; set; }
 		public ICollection<UnpaidMonth> UnpaidMonth { get; set; }
+		public ICollection<Rank> Rank { get; set; }
 	}
 }

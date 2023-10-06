@@ -1,11 +1,15 @@
-﻿namespace Magnum_web_application.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Magnum_web_application.Models
 {
-	public enum Rank
+	public class Rank
 	{
-		White,
-		Blue,
-		Purple,
-		Brown,
-		Black
+		public int Id { get; set; }
+		public DateTime Promotion { get; set; }
+		public string SkillRank { get; set; }
+
+		[JsonIgnore]
+		public Member Member { get; set; }
+		public int MemberId { get; set; }
 	}
 }

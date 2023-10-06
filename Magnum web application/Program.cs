@@ -25,12 +25,14 @@ builder.Services.AddScoped<IFeeRepository, FeeRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<ITrainingSessionRepository, TrainingSessionRepository>();
 builder.Services.AddScoped<IUnpaidMonthRepository, UnpaidMonthRepository>();
+builder.Services.AddScoped<IRankRepository, RankRepository>();
 
 builder.Services.AddScoped<IActiveMemberService, ActiveMemberService>();
 builder.Services.AddScoped<IFeeService, FeeService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<ITrainingService, TrainingService>();
 builder.Services.AddScoped<IUnpaidMonthService, UnpaidMonthService>();
+builder.Services.AddScoped<IRankService, RankService>();
 
 builder.Services.AddAutoMapper(typeof(MapConfig));
 builder.Services.AddDbContext<ApplicationDbContext>(option => {

@@ -1,6 +1,4 @@
-﻿using AutoMapper.Execution;
-using Magnum_web_application.Models;
-using Magnum_web_application.Repository;
+﻿using Magnum_web_application.Models;
 using Magnum_web_application.Repository.IRepository;
 using Magnum_web_application.Service.IServices;
 using System.Net;
@@ -38,7 +36,7 @@ namespace Magnum_web_application.Service
 
 				if (await memberRepository.GetByIdAsync(u => u.Id == member) == null)
 				{
-					return apiResponse.BadRequest(member);
+					return apiResponse.BadRequest();
 				}
 
 				List<ActiveMember> activeMemberByMonths = await activeMemberRepository.GetAllAsync(u => u.MemberId == member);

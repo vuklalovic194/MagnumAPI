@@ -9,14 +9,12 @@ namespace Magnum_web_application.Models
 		public bool IsSuccess { get; set; } = true;
 		public object Response { get; set; }
 
-		public ApiResponse BadRequest(object obj)
+		public ApiResponse BadRequest()
 		{
-			if (obj == null)
-			{
-				IsSuccess = false;
-				StatusCode = HttpStatusCode.BadRequest;
-				ErrorMessage = "Error while creating";
-			}
+			IsSuccess = false;
+			StatusCode = HttpStatusCode.BadRequest;
+			ErrorMessage = "Error while creating";
+
 			return this;
 		}
 

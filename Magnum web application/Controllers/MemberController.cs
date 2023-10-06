@@ -47,7 +47,7 @@ namespace Magnum_web_application.Controllers
 				apiResponse = await memberService.CreateMemberIfValidAsync(memberDTO);
 				return Ok(apiResponse);
 			}
-			return Ok(apiResponse.BadRequest(memberDTO));
+			return Ok(apiResponse.BadRequest());
 		}
 
 		[HttpPut("{id}", Name = "UpdateMember")]
@@ -59,7 +59,7 @@ namespace Magnum_web_application.Controllers
 			{
 				apiResponse = await memberService.UpdateMemberAsync(updateDTO, id);
 			}
-			return Ok(apiResponse.BadRequest(updateDTO));
+			return Ok(apiResponse.BadRequest());
 		}
 
 		[HttpDelete("{id}", Name = "DeleteMember")]

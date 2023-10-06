@@ -14,7 +14,6 @@
 		{
 			member.Address = updateDTO.Address;
 			member.Name = updateDTO.Name;
-			member.Rank = updateDTO.Rank;
 			member.ImageUrl = updateDTO.ImageUrl;
 			member.PhoneNumber = updateDTO.PhoneNumber;
 			member.Age = updateDTO.Age;

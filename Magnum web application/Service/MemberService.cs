@@ -23,7 +23,7 @@ namespace Magnum_web_application.Service
             {
                 if (await repository.GetByIdAsync(u => u.Name == memberDTO.Name) != null)
                 {
-                    apiResponse.BadRequest(memberDTO);
+                    apiResponse.BadRequest();
                     apiResponse.ErrorMessage = "Member with same name already exists";
                     return apiResponse;
                 }
