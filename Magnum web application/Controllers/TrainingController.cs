@@ -39,9 +39,9 @@ namespace Magnum_web_application.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> Create(int memberId)
+		public async Task<IActionResult> Create(List<int> memberIds)
 		{
-			apiResponse = await trainingService.CreateSessionAsync(memberId);
+			apiResponse = await trainingService.CreateSessionAsync(memberIds);
 			return Ok(apiResponse);
 		}
 

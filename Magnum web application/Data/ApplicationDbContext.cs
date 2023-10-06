@@ -47,7 +47,6 @@ namespace Magnum_web_application.Data
 				.WithMany(f => f.UnpaidMonth)
 				.HasForeignKey(f => f.MemberId)
 				.OnDelete(DeleteBehavior.NoAction);
-
 		}
 		
 	}

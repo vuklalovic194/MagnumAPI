@@ -4,7 +4,6 @@ namespace Magnum_web_application.Service.IServices
 {
 	public interface IUnpaidMonthService
 	{
-		public Task<ApiResponse> CreateUnpaidMonth(int memberId);
 		public Task<ApiResponse> GetAllUnpaidMonthsAsync();
 		public Task<ApiResponse> GetUnpaidMonthsById(int memberId);
 	}

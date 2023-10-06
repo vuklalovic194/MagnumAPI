@@ -40,7 +40,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("ActiveMembers");
+                    b.ToTable("ActiveMembers", (string)null);
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.Fee", b =>
@@ -61,7 +61,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("Fees");
+                    b.ToTable("Fees", (string)null);
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.Member", b =>
@@ -104,7 +104,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members");
+                    b.ToTable("Members", (string)null);
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.TrainingSession", b =>
@@ -125,7 +125,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("TrainingSessions");
+                    b.ToTable("TrainingSessions", (string)null);
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.UnpaidMonth", b =>
@@ -146,7 +146,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("UnpaidMonths");
+                    b.ToTable("UnpaidMonths", (string)null);
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.User", b =>
@@ -168,7 +168,7 @@ namespace Magnum_web_application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Magnum_web_application.Models.ActiveMember", b =>

@@ -37,6 +37,7 @@ namespace Magnum_web_application.Controllers
 			return Ok(apiResponse);
 		}
 
+		//skinuti delete
 		[HttpDelete("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]

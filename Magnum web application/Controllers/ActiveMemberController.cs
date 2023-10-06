@@ -38,16 +38,5 @@ namespace Magnum_web_application.Controllers
 			apiResponse = await activeMemberService.GetActiveMemberAsync(id);
 			return Ok(apiResponse);
 		}
-
-		[HttpPost]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		//[Authorize]
-		public async Task<ActionResult<ApiResponse>> CreateActiveMembers(int id)
-		{
-			apiResponse = await activeMemberService.CreateActiveMemberAsync(id);
-			return Ok(apiResponse);
-		}
 	}
 }

@@ -3,6 +3,7 @@ using Magnum_web_application.Models;
 using Magnum_web_application.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Magnum_web_application.Repository
@@ -30,10 +31,16 @@ namespace Magnum_web_application.Repository
 			await SaveAsync();
 		}
 
-		public async Task <List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeproperties = null)
+		public async Task <List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeproperties = null, bool tracked = true)
 		{
 			IQueryable<T> query = _dbSet;
-			if(includeproperties != null)
+			
+			if (tracked == false)
+			{
+				query = query.AsNoTracking();
+			}
+
+			if (includeproperties != null)
 			{
 				foreach(var property in includeproperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
 				{

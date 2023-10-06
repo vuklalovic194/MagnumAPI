@@ -27,7 +27,6 @@ namespace Magnum_web_application.Models
 			return this;
 		}
 
-
 		public ApiResponse NotFound(object obj)
 		{
 			IsSuccess = true;

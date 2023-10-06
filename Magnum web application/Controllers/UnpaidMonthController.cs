@@ -51,23 +51,5 @@ namespace Magnum_web_application.Controllers
 				return Ok(apiResponse);
 			}
 		}
-
-		[HttpPost("Create")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status201Created)]
-		public async Task<IActionResult> CreateUnpaidMonth(int memberId)
-		{
-			try
-			{
-				apiResponse = await unpaidMonthService.CreateUnpaidMonth(memberId);
-				return Ok(apiResponse);
-			}
-			catch (Exception e)
-			{
-				apiResponse.Unauthorize(e);
-				return Ok(apiResponse);
-			}
-		}
 	}
 }
