@@ -28,4 +28,4 @@ from basic CRUD operations to complex management of payments, attendance etc.
 
 **Run the application**  
   
--dotnet run
+-dotnet run 
